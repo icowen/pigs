@@ -8,11 +8,18 @@ import Ground from "./Ground";
 
 function App() {
   const [roll, setRoll] = useState(true);
+  const [reset, setReset] = useState(true);
+  const pigs = [...Array(2).keys()].map((x) => (
+    <Pig key={x} roll={roll} reset={reset} pigNum={x} />
+  ));
 
   return (
     <Fragment>
       <div className={"roll-pigs button"} onClick={() => setRoll(!roll)}>
         {"Roll"}
+      </div>
+      <div className={"reset-pigs button"} onClick={() => setReset(!reset)}>
+        {"Reset"}
       </div>
       <Canvas>
         <OrbitControls />
@@ -20,7 +27,7 @@ function App() {
         <ambientLight intensity={0.5} />
         <spotLight position={[10, 15, 10]} angle={0.3} />
         <Physics>
-          <Pig roll={roll} setRoll={setRoll}/>
+          {pigs}
           <Ground />
         </Physics>
       </Canvas>

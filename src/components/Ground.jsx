@@ -8,7 +8,11 @@ export default function Ground() {
   return (
     <mesh ref={ref} rotation={[-Math.PI / 2, 0, 0]}>
       <planeBufferGeometry attach="geometry" args={[100, 100]} />
-      <meshLambertMaterial attach="material" color="lightblue" />
+      <meshLambertMaterial
+        attach="material"
+        transparent={true}
+        opacity={0}
+      />
     </mesh>
   );
 }

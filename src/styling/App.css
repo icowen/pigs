@@ -1,11 +1,11 @@
-.roll-pigs {
-  height: 100px;
+.button {
+  height: 25px;
   width: 100vw;
   text-align: center;
   color: white;
   font-size: 24px;
 }
 
-.roll-pigs:hover {
+.button:hover {
   cursor: pointer;
 }

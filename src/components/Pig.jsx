@@ -1,14 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useBox } from "@react-three/cannon";
 
-export default function Pig({ roll, setRoll }) {
-  const [ref, api] = useBox(() => ({ mass: 1, position: [0, 2, 0] }));
+export default function Pig({ roll, reset, pigNum }) {
+  const startLocation = [pigNum, 2 + pigNum * 2, 0];
+
+  const [ref, api] = useBox(() => ({
+    mass: 1,
+    position: startLocation
+  }));
 
   useEffect(() => {
     console.log("Called with roll: ", roll);
-    api.velocity.set(0, 5, 0);
-    setRoll(false);
-  }, [roll, setRoll]);
+    api.position.set(startLocation[0], startLocation[1], startLocation[2]);
+    api.velocity.set(1, 1, 1);
+    api.angularVelocity.set(1, 1, 1);
+  }, [roll, api]);
 
   return (
     <mesh
@@ -16,7 +22,7 @@ export default function Pig({ roll, setRoll }) {
         api.velocity.set(0, 2, 0);
       }}
       ref={ref}
-      position={[0, 2, 0]}
+      position={startLocation}
     >
       <boxBufferGeometry attach="geometry" />
       <meshLambertMaterial attach="material" color="hotpink" />
