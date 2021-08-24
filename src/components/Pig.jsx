@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useBox } from "@react-three/cannon";
 
-export default function Pig({ roll, reset, pigNum }) {
+export default function Pig({ roll, texture, pigNum }) {
   const startLocation = [pigNum, 2 + pigNum * 2, 0];
 
   const [ref, api] = useBox(() => ({
     mass: 1,
-    position: startLocation
+    position: startLocation,
   }));
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export default function Pig({ roll, reset, pigNum }) {
       position={startLocation}
     >
       <boxBufferGeometry attach="geometry" />
-      <meshLambertMaterial attach="material" color="hotpink" />
+      <meshLambertMaterial attach="material" color="hotpink" envMap={texture} />
     </mesh>
   );
 }
