@@ -1,11 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import {
-  CubeCamera,
-  Environment,
-  OrbitControls,
-  Stars,
-} from "@react-three/drei";
+import { CubeCamera, OrbitControls } from "@react-three/drei";
 import { Physics } from "@react-three/cannon";
 import "../styling/App.css";
 import Pig from "./Pig";

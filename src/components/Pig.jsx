@@ -14,7 +14,6 @@ export default function Pig({ roll, pigNum }) {
   }));
 
   useEffect(() => {
-    console.log("Called with roll: ", roll);
     api.position.set(startLocation[0], startLocation[1], startLocation[2]);
     api.velocity.set(
       getRandomInt(3, 10),
