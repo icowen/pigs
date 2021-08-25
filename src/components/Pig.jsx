@@ -25,7 +25,7 @@ export default function Pig({ roll, texture, pigNum }) {
       position={startLocation}
     >
       <boxBufferGeometry attach="geometry" />
-      <meshLambertMaterial attach="material" color="hotpink" envMap={texture} />
+      <meshLambertMaterial attach="material" color="hotpink"/>
     </mesh>
   );
 }
