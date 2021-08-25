@@ -11,13 +11,23 @@ import "../styling/App.css";
 import Pig from "./Pig";
 import Ground from "./Ground";
 import Background from "./Background";
+import Loading from "./Loading";
 
 function App() {
   const [roll, setRoll] = useState(true);
+  const [cover, setCover] = useState(false);
 
   return (
     <Fragment>
-      <div className={"roll-pigs button"} onClick={() => setRoll(!roll)}>
+      {cover && <div className={"cover"} />}
+      <div
+        className={"roll-pigs button"}
+        onClick={() => {
+          setCover(true);
+          setTimeout(() => setRoll(!roll), 1000);
+          setTimeout(() => setCover(false), 2000);
+        }}
+      >
         {"Roll"}
       </div>
       <Canvas>
@@ -29,8 +39,10 @@ function App() {
           <CubeCamera resolution={256}>
             {() => (
               <Fragment>
-                <Pig roll={roll} pigNum={0} />
-                <Pig roll={roll} pigNum={1} />
+                <React.Suspense fallback={<Loading />}>
+                  <Pig roll={roll} pigNum={0} />
+                  <Pig roll={roll} pigNum={1} />
+                </React.Suspense>
                 <Ground />
               </Fragment>
             )}
