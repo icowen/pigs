@@ -1,14 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import { useBox } from "@react-three/cannon";
-import { useFrame, useLoader } from "@react-three/fiber";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { TextureLoader } from "three";
 import { useGLTF } from "@react-three/drei";
+import { useFrame} from "@react-three/fiber";
 import getRandomInt from "../utils/getRandomInt";
 
 export default function Pig({ roll, pigNum }) {
   const startLocation = [pigNum, 2 + pigNum * 2, 0];
-  // const startLocation = [0, 1, 0];
 
   const [ref, api] = useBox(() => ({
     mass: 3,
@@ -18,7 +15,7 @@ export default function Pig({ roll, pigNum }) {
 
   useEffect(() => {
     console.log("Called with roll: ", roll);
-    // api.position.set(startLocation[0], startLocation[1], startLocation[2]);
+    api.position.set(startLocation[0], startLocation[1], startLocation[2]);
     api.velocity.set(
       getRandomInt(3, 10),
       getRandomInt(3, 10),
@@ -31,15 +28,10 @@ export default function Pig({ roll, pigNum }) {
     );
   }, [roll, api]);
 
-  const texture = useLoader(
-    TextureLoader,
-    "http://127.0.0.1:8000/src/lowpoly_pig/textures/Material_25_baseColor.jpeg"
-  );
   const { nodes, materials } = useGLTF(
     "http://127.0.0.1:8000/src/lowpoly_pig/scene.gltf"
   );
-  console.log(nodes);
-  console.log(materials);
+
   useFrame(() => {
     ref.current.rotation.x = 5.09;
   });
@@ -60,3 +52,5 @@ export default function Pig({ roll, pigNum }) {
     </group>
   );
 }
+
+useGLTF.preload("http://127.0.0.1:8000/src/lowpoly_pig/scene.gltf");
