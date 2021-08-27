@@ -12,7 +12,7 @@ export default function Ground() {
       <meshLambertMaterial
         attach="material"
         transparent={true}
-        opacity={0}  
+        // opacity={0}  
       />
     </mesh>
   );
