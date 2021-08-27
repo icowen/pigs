@@ -4,6 +4,7 @@ import { usePlane } from "@react-three/cannon";
 export default function Ground() {
   const [ref] = usePlane(() => ({
     rotation: [-Math.PI / 2, 0, 0],
+    mass: 0
   }));
   return (
     <mesh ref={ref} rotation={[-Math.PI / 2, 0, 0]}>
@@ -11,7 +12,7 @@ export default function Ground() {
       <meshLambertMaterial
         attach="material"
         transparent={true}
-        opacity={0}
+        opacity={0}  
       />
     </mesh>
   );
