@@ -1,20 +1,15 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { useBox } from "@react-three/cannon";
 import { useGLTF } from "@react-three/drei";
 import getRandomInt from "../utils/getRandomInt";
-import { threeToCannon, ShapeType } from "three-to-cannon";
+import url from "../utils/url";
 
 export default function Pig({ roll, pigNum }) {
   const startLocation = [pigNum, 2 + pigNum * 2, 0];
 
-  const { nodes, materials } = useGLTF(
-    "http://127.0.0.1:8000/src/lowpoly_pig/scene.gltf"
-  );
-
-  const result = threeToCannon(nodes.Mesh_1244, { type: ShapeType.BOX });
+  const { nodes, materials } = useGLTF(`${url}/lowpoly_pig/scene.gltf`);
 
   const geo = nodes["Mesh_1244_Material_#25_0"].geometry;
-  console.log(result);
 
   const [ref, api] = useBox(() => ({
     mass: 1,
@@ -25,10 +20,7 @@ export default function Pig({ roll, pigNum }) {
       (geo.boundingBox.max.y - geo.boundingBox.min.y) / 2,
       (geo.boundingBox.max.z - geo.boundingBox.min.z) / 2,
     ],
-    // geometry: nodes["Mesh_1244_Material_#25_0"].geometry,
   }));
-
-  console.log(nodes);
 
   useEffect(() => {
     api.position.set(startLocation[0], startLocation[1], startLocation[2]);
@@ -54,10 +46,8 @@ export default function Pig({ roll, pigNum }) {
       visible
       material={materials["Material_25"]}
       geometry={nodes["Mesh_1244_Material_#25_0"].geometry}
-    >
-      {/* <meshNormalMaterial attach="material" transparent opacity={0.85} /> */}
-    </mesh>
+    />
   );
 }
 
-useGLTF.preload("http://127.0.0.1:8000/src/lowpoly_pig/scene.gltf");
+useGLTF.preload(`${url}/lowpoly_pig/scene.gltf`);
