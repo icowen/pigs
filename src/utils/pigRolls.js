@@ -1,17 +1,25 @@
 const { default: getRandomArbitrary } = require("./getRandomNumber");
 
-const back = (startPosition) => {
-  return {
-    rotation: { x: 0, y: getRandomArbitrary(0, 6), z: 0 },
-    position: [startPosition[0], startPosition[1] + 7, startPosition[2]],
-  };
+const back = (ref, startPosition, groupRef) => {
+  ref.current.rotation.x = 0;
+  ref.current.rotation.y = getRandomArbitrary(0, 6);
+  ref.current.rotation.z = 0;
+
+  groupRef.current.position.x = startPosition[0];
+  groupRef.current.position.y = startPosition[1] + 7;
+  groupRef.current.position.z = startPosition[2];
 };
-const side = (startPosition) => {
-  return {
-    rotation: { x: 0, y: getRandomArbitrary(0, 6), z: Math.PI / 2 },
-    position: [startPosition[0], startPosition[1] + 2, startPosition[2]],
-  };
+
+const side = (ref, startPosition, groupRef) => {
+  ref.current.rotation.x = 0;
+  ref.current.rotation.y = getRandomArbitrary(0, 6);
+  ref.current.rotation.z = Math.PI / 2;
+
+  groupRef.current.position.x = startPosition[0];
+  groupRef.current.position.y = startPosition[1] + 2;
+  groupRef.current.position.z = startPosition[2];
 };
+
 const feet = (ref, startPosition, groupRef) => {
   groupRef.current.position.x = startPosition[0];
   groupRef.current.position.y = startPosition[1];
@@ -21,16 +29,9 @@ const feet = (ref, startPosition, groupRef) => {
   ref.current.rotation.y = getRandomArbitrary(0, 6);
   ref.current.rotation.z = Math.PI;
 };
+
 const snouter = (ref, startPosition, groupRef) => {
-  // ref.current.position.x = 0;
-  // ref.current.position.y = 0;
-  // ref.current.position.z = 0;
-
-  console.log(ref.current);
-
-  groupRef.current.rotation.y =getRandomArbitrary(0, 6);
-
-  // ref.current.rotateOnWorldAxis([0, 1, 0], Math.PI);
+  groupRef.current.rotation.y = getRandomArbitrary(0, 6);
 
   ref.current.rotation.x = (5 * Math.PI) / 4;
   ref.current.rotation.y = 0;
@@ -41,17 +42,29 @@ const snouter = (ref, startPosition, groupRef) => {
   groupRef.current.position.z = startPosition[2];
 };
 
-let i = 0;
+const leaningJowler = (ref, startPosition, groupRef) => {
+  groupRef.current.rotation.y = getRandomArbitrary(0, 6);
 
-exports.getPigRotation = (startPosition) => {
-  const choices = [back, side, feet];
-  i = (i + 1) % 2;
-  return [snouter, feet][i](startPosition);
-  //   return choices[Math.floor(Math.random() * choices.length)](startPosition);
+  ref.current.rotation.x = (21 * Math.PI) / 16;
+  ref.current.rotation.y = [Math.PI / 5, -Math.PI / 5][
+    Math.floor(Math.random() * 2)
+  ];
+  ref.current.rotation.z = 0;
+
+  groupRef.current.position.x = startPosition[0];
+  groupRef.current.position.y = startPosition[1] + 2;
+  groupRef.current.position.z = startPosition[2];
 };
 
+let i = 0;
+
 exports.rollPig = (ref, startPosition, groupRef) => {
-  const choices = [back, side, feet];
+  const choices = [back, side, feet, snouter, leaningJowler];
   i = (i + 1) % 2;
-  return [snouter, feet][i](ref, startPosition, groupRef);
+  // return [leaningJowler, feet][i](ref, startPosition, groupRef);
+  return choices[Math.floor(Math.random() * choices.length)](
+    ref,
+    startPosition,
+    groupRef
+  );
 };
