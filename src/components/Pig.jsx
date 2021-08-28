@@ -4,7 +4,7 @@ import { useGLTF } from "@react-three/drei";
 import getRandomInt from "../utils/getRandomInt";
 import url from "../utils/url";
 import { useFrame } from "@react-three/fiber";
-import { getPigRotation } from "../utils/pigRolls";
+import { getPigRotation, rollPig } from "../utils/pigRolls";
 
 export default function Pig({ roll, pigNum }) {
   const startPosition = [pigNum * 15 - 10, 0, 0];
@@ -15,6 +15,8 @@ export default function Pig({ roll, pigNum }) {
   const geo = nodes["Mesh_1244_Material_#25_0"].geometry;
 
   const ref = useRef();
+
+  const groupRef = useRef();
 
   // const [ref, api] = useBox(() => ({
   //   mass: 1,
@@ -36,29 +38,50 @@ export default function Pig({ roll, pigNum }) {
   });
 
   useEffect(() => {
-    if (roll) {
-      const { rotation, position: newPosition } = getPigRotation(position);
-      ref.current.rotation.x = rotation.x;
-      ref.current.rotation.y = rotation.y;
-      ref.current.rotation.z = rotation.z;
+    rollPig(ref, startPosition, groupRef);
 
-      setPosition(newPosition);
-    } else {
-      setPosition(startPosition);
-    }
+    // if (roll) {
+    //   const {
+    //     rotation,
+    //     position: newPosition,
+    //     secondRotation,
+    //   } = getPigRotation(position);
+
+    // ref.current.rotateOnAxis([0, 0, 1], Math.PI / 2);
+
+    // Object.entries(rotation)
+    //   .filter(
+    //     ([k, v]) =>
+    //       !(secondRotation && Object.keys(secondRotation).includes(k))
+    //   )
+    //   .map(([k, v]) => (ref.current.rotation[k] = v));
+
+    // if (secondRotation) {
+    //   Object.entries(secondRotation).map(
+    //     ([k, v]) => (ref.current.rotation[k] = v)
+    //   );
+    // }
+
+    //   setPosition(newPosition);
+    // } else {
+    //   setPosition(startPosition);
+    // }
   }, [roll]);
 
   return (
-    <mesh
-      ref={ref}
-      position={position}
-      // onClick={() => {
-      //   api.velocity.set(0, 5, 0);
-      // }}
-      visible
-      material={materials["Material_25"]}
-      geometry={nodes["Mesh_1244_Material_#25_0"].geometry}
-    />
+    <group position={[0, 0, 0]}>
+      <group ref={groupRef} position={position}>
+        <mesh
+          ref={ref}
+          // onClick={() => {
+          //   api.velocity.set(0, 5, 0);
+          // }}
+          visible
+          material={materials["Material_25"]}
+          geometry={nodes["Mesh_1244_Material_#25_0"].geometry}
+        />
+      </group>
+    </group>
   );
 }
 
