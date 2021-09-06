@@ -117,16 +117,6 @@ export default function Pig({ roll, pigNum, isSpinning }) {
       animationTime.current = 0;
       animationRef.current = requestAnimationFrame(animate);
     }
-    // else {
-    //   if (ref.current.rotation)
-    //     updateRotationAndPosition(ref, groupRef, 0.01, targets);
-    // }
-    // if (!roll) {
-    //   // groupRef.current.position.x = startPosition[0];
-    //   // groupRef.current.position.y = startPosition[1];
-    //   // groupRef.current.position.z = startPosition[2];
-    //   // setTimeSinceRoll(0);
-    // }
 
     return () => cancelAnimationFrame(animationRef.current);
   }, [roll, isSpinning]);

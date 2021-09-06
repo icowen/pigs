@@ -16,13 +16,10 @@ function App() {
   return (
     <Fragment>
       {cover && <div className={"cover"} />}
-      <div className={'button-container'}>
+      <div className={"button-container"}>
         <div
           className={"roll-pigs button"}
           onClick={() => {
-            // setCover(true);
-            // setTimeout(() => setRoll(!roll), 1000);
-            // setTimeout(() => setCover(false), 2000);
             setRoll(true);
             setIsSpinning(false);
           }}
