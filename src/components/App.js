@@ -9,21 +9,35 @@ import Background from "./Background";
 import Loading from "./Loading";
 
 function App() {
-  const [roll, setRoll] = useState(true);
+  const [roll, setRoll] = useState(false);
+  const [isSpinning, setIsSpinning] = useState(true);
   const [cover, setCover] = useState(false);
 
   return (
     <Fragment>
       {cover && <div className={"cover"} />}
-      <div
-        className={"roll-pigs button"}
-        onClick={() => {
-          setCover(true);
-          setTimeout(() => setRoll(!roll), 1000);
-          setTimeout(() => setCover(false), 2000);
-        }}
-      >
-        {"Roll"}
+      <div className={'button-container'}>
+        <div
+          className={"roll-pigs button"}
+          onClick={() => {
+            // setCover(true);
+            // setTimeout(() => setRoll(!roll), 1000);
+            // setTimeout(() => setCover(false), 2000);
+            setRoll(true);
+            setIsSpinning(false);
+          }}
+        >
+          {"Roll"}
+        </div>
+        <div
+          className={"reset-pigs button"}
+          onClick={() => {
+            setIsSpinning(true);
+            setRoll(false);
+          }}
+        >
+          {"Reset"}
+        </div>
       </div>
       <Canvas>
         <OrbitControls />
@@ -35,8 +49,8 @@ function App() {
             {() => (
               <Fragment>
                 <React.Suspense fallback={<Loading />}>
-                  <Pig roll={roll} pigNum={0} />
-                  <Pig roll={roll} pigNum={1} />
+                  <Pig roll={roll} pigNum={0} isSpinning={isSpinning} />
+                  <Pig roll={roll} pigNum={1} isSpinning={isSpinning} />
                 </React.Suspense>
                 <Ground />
               </Fragment>
