@@ -23,6 +23,8 @@ export default function Pig({ roll, pigNum, isSpinning }) {
   const groupRef = useRef();
 
   const movePig = (dt) => {
+    const targetRotation = targets.current.ref?.rotation;
+
     ref.current.rotation.x += (targetRotation.x * dt) % (Math.PI * 2);
     ref.current.rotation.y += (targetRotation.y * dt) % (Math.PI * 2);
     ref.current.rotation.z += (targetRotation.z * dt) % (Math.PI * 2);
@@ -41,7 +43,6 @@ export default function Pig({ roll, pigNum, isSpinning }) {
 
   const animate = (currentTime) => {
     const refRotation = ref.current?.rotation;
-    const targetRotation = targets.current.ref?.rotation;
 
     const delta = previousTimeRef.current
       ? currentTime - previousTimeRef.current
@@ -58,7 +59,7 @@ export default function Pig({ roll, pigNum, isSpinning }) {
     } else if (animationTime.current > 1) {
       movePig(dt);
       animationTime.current = 0;
-    } else if (refRotation && targetRotation) {
+    } else if (refRotation && targets.current.ref?.rotation) {
       movePig(dt);
       animationTime.current += dt;
       animationRef.current = requestAnimationFrame(animate);
@@ -81,11 +82,8 @@ export default function Pig({ roll, pigNum, isSpinning }) {
   });
 
   useEffect(() => {
-    console.log("Roll:", roll);
-    console.log("isSpinning:", isSpinning);
     if (roll) {
       const newTargets = rollPig(startPosition, ref, groupRef);
-      console.log(newTargets);
       targets.current = newTargets;
       animationTime.current = 0;
       animationRef.current = requestAnimationFrame(animate);

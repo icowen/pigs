@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { CubeCamera, OrbitControls } from "@react-three/drei";
 import { Physics } from "@react-three/cannon";
@@ -12,6 +12,7 @@ function App() {
   const [roll, setRoll] = useState(false);
   const [isSpinning, setIsSpinning] = useState(true);
   const [cover, setCover] = useState(false);
+  const [showLight, setShowLight] = useState(false);
 
   return (
     <Fragment>
@@ -22,6 +23,7 @@ function App() {
           onClick={() => {
             setRoll(true);
             setIsSpinning(false);
+            setTimeout(() => setShowLight(true), 1500);
           }}
         >
           {"Roll"}
@@ -31,18 +33,19 @@ function App() {
           onClick={() => {
             setIsSpinning(true);
             setRoll(false);
+            setShowLight(false);
           }}
         >
           {"Reset"}
         </div>
       </div>
       <Canvas>
-        <OrbitControls />
-        <ambientLight intensity={0.5} />
-        <spotLight position={[10, 15, 10]} angle={0.3} />
+        <OrbitControls autoRotate autoRotateSpeed={1}/>
+        <ambientLight intensity={showLight ? 0.5 : 0.7} />
+        {showLight && <spotLight position={[10, 30, 10]} angle={0.5} />}
         <Background />
         <Physics>
-          <CubeCamera resolution={256}>
+          <CubeCamera resolution={256} position={[0, 0, 0]}>
             {() => (
               <Fragment>
                 <React.Suspense fallback={<Loading />}>
