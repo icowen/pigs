@@ -11,7 +11,7 @@ import {
 } from "../utils/pigRolls";
 
 export default function Pig({ roll, pigNum, isSpinning }) {
-  const startPosition = [pigNum * 15 - 10, 0, 0];
+  const startPosition = [pigNum * 15 - 10, 20, 0];
 
   const targets = useRef();
   const animationTime = useRef();
@@ -21,6 +21,23 @@ export default function Pig({ roll, pigNum, isSpinning }) {
 
   const ref = useRef();
   const groupRef = useRef();
+
+  const movePig = (dt) => {
+    ref.current.rotation.x += (targetRotation.x * dt) % (Math.PI * 2);
+    ref.current.rotation.y += (targetRotation.y * dt) % (Math.PI * 2);
+    ref.current.rotation.z += (targetRotation.z * dt) % (Math.PI * 2);
+
+    groupRef.current.rotation.x +=
+      (targets.current.groupRef.rotation.x * dt) % (Math.PI * 2);
+    groupRef.current.rotation.y +=
+      (targets.current.groupRef.rotation.y * dt) % (Math.PI * 2);
+    groupRef.current.rotation.z +=
+      (targets.current.groupRef.rotation.z * dt) % (Math.PI * 2);
+
+    groupRef.current.position.x += targets.current.groupRef.position.x * dt;
+    groupRef.current.position.y += targets.current.groupRef.position.y * dt;
+    groupRef.current.position.z += targets.current.groupRef.position.z * dt;
+  };
 
   const animate = (currentTime) => {
     const refRotation = ref.current?.rotation;
@@ -36,52 +53,13 @@ export default function Pig({ roll, pigNum, isSpinning }) {
         ? 1 - (animationTime.current - delta * 0.001)
         : delta * 0.001;
 
-    // console.log(dt);
-    // console.log(delta);
-    // console.log("Animation time:", animationTime.current);
-    // console.log("RefRotation:", refRotation);
-    // console.log("targetRotation:", targetRotation);
     if (dt > 1) {
       animationRef.current = requestAnimationFrame(animate);
     } else if (animationTime.current > 1) {
+      movePig(dt);
       animationTime.current = 0;
-      ref.current.rotation.x += (targetRotation.x - refRotation.x) * dt;
-      ref.current.rotation.y += (targetRotation.y - refRotation.y) * dt;
-      ref.current.rotation.z += (targetRotation.z - refRotation.z) * dt;
-
-      groupRef.current.rotation.x +=
-        (targets.current.groupRef.rotation.x - groupRef.current.rotation.x) *
-        dt;
-      groupRef.current.rotation.y +=
-        (targets.current.groupRef.rotation.y - groupRef.current.rotation.y) *
-        dt;
-      groupRef.current.rotation.z +=
-        (targets.current.groupRef.rotation.z - groupRef.current.rotation.z) *
-        dt;
-
-      groupRef.current.position.x +=
-        (targets.current.groupRef.position.x - groupRef.current.position.x) *
-        dt;
-      groupRef.current.position.y +=
-        (targets.current.groupRef.position.y - groupRef.current.position.y) *
-        dt;
-      groupRef.current.position.z +=
-        (targets.current.groupRef.position.z - groupRef.current.position.z) *
-        dt;
-      animationRef.current = undefined;
     } else if (refRotation && targetRotation) {
-      ref.current.rotation.x += targetRotation.x * dt;
-      ref.current.rotation.y += targetRotation.y * dt;
-      ref.current.rotation.z += targetRotation.z * dt;
-
-      groupRef.current.rotation.x += targets.current.groupRef.rotation.x * dt;
-      groupRef.current.rotation.y += targets.current.groupRef.rotation.y * dt;
-      groupRef.current.rotation.z += targets.current.groupRef.rotation.z * dt;
-
-      groupRef.current.position.x += targets.current.groupRef.position.x * dt;
-      groupRef.current.position.y += targets.current.groupRef.position.y * dt;
-      groupRef.current.position.z += targets.current.groupRef.position.z * dt;
-
+      movePig(dt);
       animationTime.current += dt;
       animationRef.current = requestAnimationFrame(animate);
     } else {
@@ -102,11 +80,6 @@ export default function Pig({ roll, pigNum, isSpinning }) {
     }
   });
 
-  // useCallback(() => {
-  //   if (roll && ref.current.rotation)
-  //     updateRotationAndPosition(ref, groupRef, 0.01, targets);
-  // }, [roll]);
-
   useEffect(() => {
     console.log("Roll:", roll);
     console.log("isSpinning:", isSpinning);
@@ -116,6 +89,20 @@ export default function Pig({ roll, pigNum, isSpinning }) {
       targets.current = newTargets;
       animationTime.current = 0;
       animationRef.current = requestAnimationFrame(animate);
+    }
+
+    if (isSpinning) {
+      groupRef.current.position.x = startPosition[0];
+      groupRef.current.position.y = startPosition[1];
+      groupRef.current.position.z = startPosition[2];
+
+      groupRef.current.rotation.x = 0;
+      groupRef.current.rotation.y = 0;
+      groupRef.current.rotation.z = 0;
+
+      ref.current.position.x = 0;
+      ref.current.position.y = 0;
+      ref.current.position.z = 0;
     }
 
     return () => cancelAnimationFrame(animationRef.current);
