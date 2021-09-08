@@ -22,7 +22,8 @@
     "eject": "react-scripts eject",
     "local-server": "http-server . -p 8000 --cors -c-1",
     "deploy": "aws s3 sync build/ s3://pigs-website --acl public-read --profile desports --region us-east-1",
-    "build-and-deploy": "yarn build && yarn deploy"
+    "deploy-resources": "aws s3 sync resources/ s3://pigs-resources --acl public-read --profile desports --region us-east-1",
+    "build-and-deploy": "yarn build && yarn deploy && yarn deploy-resources"
   },
   "eslintConfig": {
     "extends": [
