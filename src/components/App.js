@@ -18,29 +18,36 @@ function App() {
     <Fragment>
       {cover && <div className={"cover"} />}
       <div className={"button-container"}>
-        <div
-          className={"roll-pigs button"}
-          onClick={() => {
-            setRoll(true);
-            setIsSpinning(false);
-            setTimeout(() => setShowLight(true), 1500);
-          }}
-        >
-          {"Roll"}
-        </div>
-        <div
-          className={"reset-pigs button"}
-          onClick={() => {
-            setIsSpinning(true);
-            setRoll(false);
-            setShowLight(false);
-          }}
-        >
-          {"Reset"}
-        </div>
+        {roll ? (
+          <div
+            className={"reset-pigs button"}
+            onClick={() => {
+              if (!isSpinning) {
+                setIsSpinning(true);
+                setRoll(false);
+                setShowLight(false);
+              }
+            }}
+          >
+            {"Reset"}
+          </div>
+        ) : (
+          <div
+            className={"roll-pigs button"}
+            onClick={() => {
+              if (!roll) {
+                setRoll(true);
+                setIsSpinning(false);
+                setTimeout(() => setShowLight(true), 1500);
+              }
+            }}
+          >
+            {"Roll"}
+          </div>
+        )}
       </div>
       <Canvas>
-        <OrbitControls autoRotate autoRotateSpeed={1}/>
+        <OrbitControls autoRotate autoRotateSpeed={1} />
         <ambientLight intensity={showLight ? 0.5 : 0.7} />
         {showLight && <spotLight position={[10, 30, 10]} angle={0.5} />}
         <Background />
