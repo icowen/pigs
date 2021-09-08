@@ -8,11 +8,11 @@ export default function Background() {
       <Environment
         files={[
           `${url}/px.png`,
-          `${url}/py.png`,
-          `${url}/pz.png`,
           `${url}/nx.png`,
-          `${url}/nz.png`,
+          `${url}/py.png`,
           `${url}/ny.png`,
+          `${url}/pz.png`,
+          `${url}/nz.png`,
         ]}
         background={true}
       />
