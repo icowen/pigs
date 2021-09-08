@@ -1,14 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useBox } from "@react-three/cannon";
+import React, { useEffect, useRef } from "react";
 import { useGLTF } from "@react-three/drei";
-import getRandomInt from "../utils/getRandomInt";
-import url from "../utils/url";
-import { useFrame, useThree } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import {
-  getPigRotation,
-  rollPig,
-  updateRotationAndPosition,
+  rollPig
 } from "../utils/pigRolls";
+import url from "../utils/url";
 
 export default function Pig({ roll, pigNum, isSpinning }) {
   const startPosition = [pigNum * 15 - 10, 20, 0];
