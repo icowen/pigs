@@ -3,10 +3,12 @@ import { Canvas } from "@react-three/fiber";
 import { CubeCamera, OrbitControls } from "@react-three/drei";
 import { Physics } from "@react-three/cannon";
 import "../styling/App.css";
-import Pig from "./Pig";
+import Pigs from "./Pigs";
 import Ground from "./Ground";
 import Background from "./Background";
 import Loading from "./Loading";
+import ResetButton from "./ResetButton";
+import RollButton from "./RollButton";
 
 function App() {
   const [roll, setRoll] = useState(false);
@@ -14,36 +16,26 @@ function App() {
   const [cover, setCover] = useState(false);
   const [showLight, setShowLight] = useState(false);
 
+  const onReset = () => {
+    setIsSpinning(true);
+    setRoll(false);
+    setShowLight(false);
+  };
+
+  const onRoll = () => {
+    setRoll(true);
+    setIsSpinning(false);
+    setTimeout(() => setShowLight(true), 1500);
+  };
+
   return (
     <Fragment>
       {cover && <div className={"cover"} />}
       <div className={"button-container"}>
         {roll ? (
-          <div
-            className={"reset-pigs button"}
-            onClick={() => {
-              if (!isSpinning) {
-                setIsSpinning(true);
-                setRoll(false);
-                setShowLight(false);
-              }
-            }}
-          >
-            {"Reset"}
-          </div>
+          <ResetButton onReset={onReset} />
         ) : (
-          <div
-            className={"roll-pigs button"}
-            onClick={() => {
-              if (!roll) {
-                setRoll(true);
-                setIsSpinning(false);
-                setTimeout(() => setShowLight(true), 1500);
-              }
-            }}
-          >
-            {"Roll"}
-          </div>
+          <RollButton onRoll={onRoll} />
         )}
       </div>
       <Canvas>
@@ -56,8 +48,7 @@ function App() {
             {() => (
               <Fragment>
                 <React.Suspense fallback={<Loading />}>
-                  <Pig roll={roll} pigNum={0} isSpinning={isSpinning} />
-                  <Pig roll={roll} pigNum={1} isSpinning={isSpinning} />
+                  <Pigs roll={roll} isSpinning={isSpinning} />
                 </React.Suspense>
                 <Ground />
               </Fragment>

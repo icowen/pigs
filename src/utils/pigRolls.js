@@ -1,7 +1,7 @@
 const { default: getRandomArbitrary } = require("./getRandomNumber");
 
 const back = (startPosition, ref, groupRef) => {
-  console.log('Back')
+  console.log("Back");
   return {
     ref: {
       rotation: {
@@ -26,7 +26,7 @@ const back = (startPosition, ref, groupRef) => {
 };
 
 const leftSide = (startPosition, ref, groupRef) => {
-  console.log('Left Side')
+  console.log("Left Side");
   return {
     ref: {
       rotation: {
@@ -51,7 +51,7 @@ const leftSide = (startPosition, ref, groupRef) => {
 };
 
 const rightSide = (startPosition, ref, groupRef) => {
-  console.log('Right side')
+  console.log("Right side");
   return {
     ref: {
       rotation: {
@@ -76,7 +76,7 @@ const rightSide = (startPosition, ref, groupRef) => {
 };
 
 const feet = (startPosition, ref, groupRef) => {
-  console.log('Feet')
+  console.log("Feet");
   return {
     ref: {
       rotation: {
@@ -101,7 +101,7 @@ const feet = (startPosition, ref, groupRef) => {
 };
 
 const snouter = (startPosition, ref, groupRef) => {
-  console.log('Snouter')
+  console.log("Snouter");
   return {
     ref: {
       rotation: {
@@ -126,7 +126,7 @@ const snouter = (startPosition, ref, groupRef) => {
 };
 
 const leaningJowler = (startPosition, ref, groupRef) => {
-  console.log('Leaning Jowler')
+  console.log("Leaning Jowler");
   return {
     ref: {
       rotation: {
@@ -160,6 +160,10 @@ exports.rollPig = (startPosition, ref, groupRef) => {
   if (roll < 0.96) return feet(startPosition, ref, groupRef);
   if (roll < 0.99) return snouter(startPosition, ref, groupRef);
   leaningJowler(startPosition, ref, groupRef);
+};
+
+exports.getPosition = (probabilities) => {
+  return "Something";
 };
 
 //DotUp-   119  .33
