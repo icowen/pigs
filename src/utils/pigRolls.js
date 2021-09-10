@@ -167,11 +167,11 @@ exports.getPosition = (probabilities) => {
   const sum = (i) => probabilities.slice(0, i).reduce((a, b) => a + b, 0);
 
   const roll = Math.random();
-  if (roll < sum(0)) return "rightSide";
-  if (roll < sum(1)) return "leftSide";
-  if (roll < sum(2)) return "back";
-  if (roll < sum(3)) return "feet";
-  if (roll < sum(4)) return "snouter";
+  if (roll < sum(1)) return "rightSide";
+  if (roll < sum(2)) return "leftSide";
+  if (roll < sum(3)) return "back";
+  if (roll < sum(4)) return "feet";
+  if (roll < sum(5)) return "snouter";
   return "leaningJowler";
 };
 
