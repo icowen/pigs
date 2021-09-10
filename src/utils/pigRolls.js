@@ -152,18 +152,27 @@ const leaningJowler = (startPosition, ref, groupRef) => {
   };
 };
 
-exports.rollPig = (startPosition, ref, groupRef) => {
-  const roll = Math.random();
-  if (roll < 0.33) return rightSide(startPosition, ref, groupRef);
-  if (roll < 0.66) return leftSide(startPosition, ref, groupRef);
-  if (roll < 0.91) return back(startPosition, ref, groupRef);
-  if (roll < 0.96) return feet(startPosition, ref, groupRef);
-  if (roll < 0.99) return snouter(startPosition, ref, groupRef);
-  leaningJowler(startPosition, ref, groupRef);
+exports.rollPig = (startPosition, ref, groupRef, position) => {
+  return {
+    rightSide: rightSide,
+    leftSide: leftSide,
+    back: back,
+    feet: feet,
+    snouter: snouter,
+    leaningJowler: leaningJowler,
+  }[position](startPosition, ref, groupRef);
 };
 
 exports.getPosition = (probabilities) => {
-  return "Something";
+  const sum = (i) => probabilities.slice(0, i).reduce((a, b) => a + b, 0);
+
+  const roll = Math.random();
+  if (roll < sum(0)) return "rightSide";
+  if (roll < sum(1)) return "leftSide";
+  if (roll < sum(2)) return "back";
+  if (roll < sum(3)) return "feet";
+  if (roll < sum(4)) return "snouter";
+  return "leaningJowler";
 };
 
 //DotUp-   119  .33

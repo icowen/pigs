@@ -1,12 +1,10 @@
 import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import React, { useEffect, useRef } from "react";
-import {
-  rollPig
-} from "../utils/pigRolls";
+import { rollPig } from "../utils/pigRolls";
 import url from "../utils/url";
 
-export default function Pig({ roll, pigNum, isSpinning }) {
+export default function Pig({ roll, pigNum, isSpinning, position }) {
   const startPosition = [pigNum * 15 - 10, 20, 0];
 
   const targets = useRef();
@@ -78,12 +76,21 @@ export default function Pig({ roll, pigNum, isSpinning }) {
   });
 
   useEffect(() => {
-    if (roll) {
-      const newTargets = rollPig(startPosition, ref, groupRef);
+    if (position) {
+      const newTargets = rollPig(startPosition, ref, groupRef, position);
       targets.current = newTargets;
       animationTime.current = 0;
       animationRef.current = requestAnimationFrame(animate);
     }
+  }, [position]);
+
+  useEffect(() => {
+    // if (roll) {
+    //   const newTargets = rollPig(startPosition, ref, groupRef);
+    //   targets.current = newTargets;
+    //   animationTime.current = 0;
+    //   animationRef.current = requestAnimationFrame(animate);
+    // }
 
     if (isSpinning) {
       groupRef.current.position.x = startPosition[0];
@@ -100,7 +107,7 @@ export default function Pig({ roll, pigNum, isSpinning }) {
     }
 
     return () => cancelAnimationFrame(animationRef.current);
-  }, [roll, isSpinning]);
+  }, [isSpinning]);
 
   return (
     <group position={[0, 0, 0]}>

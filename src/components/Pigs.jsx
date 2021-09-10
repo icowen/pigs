@@ -1,38 +1,28 @@
 import { Fragment, useEffect, useState } from "react";
 import { getPosition } from "../utils/pigRolls";
-import { Text } from '@react-three/drei'
 import Pig from "./Pig";
 
-export default function Pigs({ roll, isSpinning }) {
+export default function Pigs({ roll, isSpinning, setInfo, probabilities }) {
   const [pigOnePosition, setPigOnePosition] = useState();
   const [pigTwoPosition, setPigTwoPosition] = useState();
-  const [probabilities, setProbabilities] = useState([
-    0.33,
-    0.66,
-    0.91,
-    0.96,
-    0.99,
-  ]);
 
   useEffect(() => {
     if (roll) {
       const newPosition1 = getPosition(probabilities);
-      console.log("PigOne:", newPosition1);
+      const newPosition2 = getPosition(probabilities);
+      setInfo(`Pig One Roll: ${newPosition1}\nPig Two Roll: ${newPosition2}`);
       setPigOnePosition(newPosition1);
+      setPigTwoPosition(newPosition2);
     } else {
       setPigOnePosition(undefined);
+      setPigTwoPosition(undefined);
     }
   }, [roll]);
 
   return (
     <Fragment>
-      {pigOnePosition && (
-        <Text color="black" anchorX="center" anchorY="middle">
-          {pigOnePosition}
-        </Text>
-      )}
-      <Pig roll={roll} pigNum={0} isSpinning={isSpinning} />
-      <Pig roll={roll} pigNum={1} isSpinning={isSpinning} />
+      <Pig roll={roll} pigNum={0} isSpinning={isSpinning} position={pigOnePosition}/>
+      <Pig roll={roll} pigNum={1} isSpinning={isSpinning} position={pigTwoPosition}/>
     </Fragment>
   );
 }

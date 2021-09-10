@@ -7,14 +7,25 @@ import Pigs from "./Pigs";
 import Ground from "./Ground";
 import Background from "./Background";
 import Loading from "./Loading";
-import ResetButton from "./ResetButton";
-import RollButton from "./RollButton";
+import Button from "./Button";
 
 function App() {
   const [roll, setRoll] = useState(false);
   const [isSpinning, setIsSpinning] = useState(true);
-  const [cover, setCover] = useState(false);
   const [showLight, setShowLight] = useState(false);
+  const [showInfo, setShowInfo] = useState(
+    window.location.href.split("/").at("-1") === "info"
+  );
+  const [probabilities, setProbabilities] = useState([
+    0.33,
+    0.33,
+    0.25,
+    0.05,
+    0.03,
+    0.01,
+  ]);
+
+  const [info, setInfo] = useState();
 
   const onReset = () => {
     setIsSpinning(true);
@@ -30,14 +41,24 @@ function App() {
 
   return (
     <Fragment>
-      {cover && <div className={"cover"} />}
-      <div className={"button-container"}>
-        {roll ? (
-          <ResetButton onReset={onReset} />
-        ) : (
-          <RollButton onRoll={onRoll} />
-        )}
-      </div>
+      {showInfo && (
+        <div
+          className={"info"}
+          onClick={() => {
+            setShowInfo(false);
+            setTimeout(() => setShowInfo(true), 10000);
+          }}
+        >
+          <pre className={'info-probability'}>{`Left Side:      ${probabilities[0]}`}</pre>
+          <pre className={'info-probability'}>{`Right Side:     ${probabilities[1]}`}</pre>
+          <pre className={'info-probability'}>{`Back:           ${probabilities[2]}`}</pre>
+          <pre className={'info-probability'}>{`Feet:           ${probabilities[3]}`}</pre>
+          <pre className={'info-probability'}>{`Snouter:        ${probabilities[4]}`}</pre>
+          <pre className={'info-probability'}>{`Leaning Jowler: ${probabilities[5]}`}</pre>
+          {info}
+        </div>
+      )}
+      <Button onRoll={onRoll} roll={roll} onReset={onReset} />
       <Canvas>
         <OrbitControls autoRotate autoRotateSpeed={1} />
         <ambientLight intensity={showLight ? 0.5 : 0.7} />
@@ -48,7 +69,12 @@ function App() {
             {() => (
               <Fragment>
                 <React.Suspense fallback={<Loading />}>
-                  <Pigs roll={roll} isSpinning={isSpinning} />
+                  <Pigs
+                    roll={roll}
+                    isSpinning={isSpinning}
+                    setInfo={setInfo}
+                    probabilities={probabilities}
+                  />
                 </React.Suspense>
                 <Ground />
               </Fragment>
