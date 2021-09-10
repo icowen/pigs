@@ -14,7 +14,7 @@ function App() {
   const [isSpinning, setIsSpinning] = useState(true);
   const [showLight, setShowLight] = useState(false);
   const [showInfo, setShowInfo] = useState(
-    window.location.href.split("/").at("-1") === "info"
+    window.location.href.includes("info")
   );
   const [probabilities, setProbabilities] = useState([
     0.33,

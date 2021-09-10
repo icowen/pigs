@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from "react";
 import { rollPig } from "../utils/pigRolls";
 import url from "../utils/url";
 
-export default function Pig({ roll, pigNum, isSpinning, position }) {
+export default function Pig({ pigNum, isSpinning, position }) {
   const startPosition = [pigNum * 15 - 10, 20, 0];
 
   const targets = useRef();
@@ -85,13 +85,6 @@ export default function Pig({ roll, pigNum, isSpinning, position }) {
   }, [position]);
 
   useEffect(() => {
-    // if (roll) {
-    //   const newTargets = rollPig(startPosition, ref, groupRef);
-    //   targets.current = newTargets;
-    //   animationTime.current = 0;
-    //   animationRef.current = requestAnimationFrame(animate);
-    // }
-
     if (isSpinning) {
       groupRef.current.position.x = startPosition[0];
       groupRef.current.position.y = startPosition[1];

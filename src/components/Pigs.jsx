@@ -21,8 +21,8 @@ export default function Pigs({ roll, isSpinning, setInfo, probabilities }) {
 
   return (
     <Fragment>
-      <Pig roll={roll} pigNum={0} isSpinning={isSpinning} position={pigOnePosition}/>
-      <Pig roll={roll} pigNum={1} isSpinning={isSpinning} position={pigTwoPosition}/>
+      <Pig pigNum={0} isSpinning={isSpinning} position={pigOnePosition}/>
+      <Pig pigNum={1} isSpinning={isSpinning} position={pigTwoPosition}/>
     </Fragment>
   );
 }
