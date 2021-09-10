@@ -39,42 +39,90 @@ function App() {
     setTimeout(() => setShowLight(true), 1500);
   };
 
+  const updateProb = (value, i) => {
+    setProbabilities((prev) => {
+      const newProbs = [...prev];
+      newProbs[i] = Number(value);
+      return newProbs;
+    });
+  };
+
   return (
     <Fragment>
       {showInfo && (
-        <div
-          className={"info"}
-          onClick={() => {
-            setShowInfo(false);
-            setTimeout(() => setShowInfo(true), 10000);
-          }}
-        >
+        <div className={"info"}>
           <pre
             className={"info-probability"}
           >{`Left Side:      ${probabilities[0]}`}</pre>
-          {/* <input
+          <input
             type={"range"}
             min={0}
             max={1}
-            onChange={(e) => {
-              setProbabilities((prev) => [e.target.value, ...prev.slice(1)]);
-            }}
-          /> */}
+            defaultValue={probabilities[0]}
+            step={0.01}
+            onChange={(e) => updateProb(e.target.value, 0)}
+          />
           <pre
             className={"info-probability"}
           >{`Right Side:     ${probabilities[1]}`}</pre>
+          <input
+            type={"range"}
+            min={0}
+            max={1}
+            defaultValue={probabilities[1]}
+            step={0.01}
+            onChange={(e) => updateProb(e.target.value, 1)}
+          />
           <pre
             className={"info-probability"}
           >{`Back:           ${probabilities[2]}`}</pre>
+          <input
+            type={"range"}
+            min={0}
+            max={1}
+            defaultValue={probabilities[2]}
+            step={0.01}
+            onChange={(e) => updateProb(e.target.value, 2)}
+          />
           <pre
             className={"info-probability"}
           >{`Feet:           ${probabilities[3]}`}</pre>
+          <input
+            type={"range"}
+            min={0}
+            max={1}
+            defaultValue={probabilities[3]}
+            step={0.01}
+            onChange={(e) => updateProb(e.target.value, 3)}
+          />
           <pre
             className={"info-probability"}
           >{`Snouter:        ${probabilities[4]}`}</pre>
+          <input
+            type={"range"}
+            min={0}
+            max={1}
+            defaultValue={probabilities[4]}
+            step={0.01}
+            onChange={(e) => updateProb(e.target.value, 4)}
+          />
           <pre
             className={"info-probability"}
           >{`Leaning Jowler: ${probabilities[5]}`}</pre>
+          <input
+            type={"range"}
+            min={0}
+            max={1}
+            defaultValue={probabilities[5]}
+            step={0.01}
+            onChange={(e) => updateProb(e.target.value, 5)}
+          />
+          {probabilities.reduce((a, b) => a + b) !== 1 && (
+            <div className={"bad-probs"}>
+              {"Make the numbers sum to one, DOOMFKA!!!"}
+              {`\nTotal: ${probabilities.reduce((a, b) => a + b)}`}
+            </div>
+          )}
           {info}
         </div>
       )}
