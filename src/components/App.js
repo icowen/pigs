@@ -49,12 +49,32 @@ function App() {
             setTimeout(() => setShowInfo(true), 10000);
           }}
         >
-          <pre className={'info-probability'}>{`Left Side:      ${probabilities[0]}`}</pre>
-          <pre className={'info-probability'}>{`Right Side:     ${probabilities[1]}`}</pre>
-          <pre className={'info-probability'}>{`Back:           ${probabilities[2]}`}</pre>
-          <pre className={'info-probability'}>{`Feet:           ${probabilities[3]}`}</pre>
-          <pre className={'info-probability'}>{`Snouter:        ${probabilities[4]}`}</pre>
-          <pre className={'info-probability'}>{`Leaning Jowler: ${probabilities[5]}`}</pre>
+          <pre
+            className={"info-probability"}
+          >{`Left Side:      ${probabilities[0]}`}</pre>
+          {/* <input
+            type={"range"}
+            min={0}
+            max={1}
+            onChange={(e) => {
+              setProbabilities((prev) => [e.target.value, ...prev.slice(1)]);
+            }}
+          /> */}
+          <pre
+            className={"info-probability"}
+          >{`Right Side:     ${probabilities[1]}`}</pre>
+          <pre
+            className={"info-probability"}
+          >{`Back:           ${probabilities[2]}`}</pre>
+          <pre
+            className={"info-probability"}
+          >{`Feet:           ${probabilities[3]}`}</pre>
+          <pre
+            className={"info-probability"}
+          >{`Snouter:        ${probabilities[4]}`}</pre>
+          <pre
+            className={"info-probability"}
+          >{`Leaning Jowler: ${probabilities[5]}`}</pre>
           {info}
         </div>
       )}
